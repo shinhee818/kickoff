@@ -1,0 +1,57 @@
+package com.kickoff.core.soccer.game.player;
+
+import com.kickoff.core.soccer.player.Player;
+import com.kickoff.core.soccer.player.PlayerPosition;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Getter
+@NoArgsConstructor
+public class LeagueGamePlayer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long LeagueGamePlayerId;
+
+    @Enumerated(EnumType.STRING)
+    private LeagueGamePlayerStatus status;
+
+    private int playedTime;
+
+    private int subTime;
+
+    @Enumerated(EnumType.STRING)
+    private PlayerPosition position;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id")
+    private Player player;
+
+    @Setter
+    @ElementCollection
+    @CollectionTable(name = "player_history",
+        joinColumns = @JoinColumn(name = "leagueGamePlayerId"))
+    private List<PlayerHistory> playerHistories = new ArrayList<>();
+
+    @Builder
+    public LeagueGamePlayer(
+            Long leagueGamePlayerId,
+            LeagueGamePlayerStatus status,
+            int playedTime,
+            int subTime,
+            PlayerPosition position,
+            Player player) {
+        LeagueGamePlayerId = leagueGamePlayerId;
+        this.status = status;
+        this.playedTime = playedTime;
+        this.subTime = subTime;
+        this.position = position;
+        this.player = player;
+    }
+}

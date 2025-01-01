@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Entered the build phase...
+      - echo Build Starting on `date`
+      - ./gradlew kick-off-api:bootJar -x test
+  post_build:
+    commands:
+      - echo Entered the post_build phase...
+      - echo Build completed on `date`
+      - echo $(basename ./kick-off-api/build/libs/*.jar)
+
+################################################################
+artifacts:
+  files:
+    - appspec.yml
+    - kick-off-api/build/libs/*.jar
+    - scripts/**
+###################################################
+
+
+cache:
+  paths:
+    - '/root/.gradle/caches/**/*'

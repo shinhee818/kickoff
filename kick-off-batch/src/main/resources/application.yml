@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: local
+    include: core
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      name: matchDetailInsertJob
+server:
+  port: 8084
+
+api:
+  footbool:
+    token: b1a0c6ed997843cdbc8d22f33523bde6
+logging:
+  level:
+    root: info
+    org:
+      apache.catalina: info
